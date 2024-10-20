@@ -7,10 +7,8 @@
 docker compose up -d
 ```
 
-Вслучае возникновении ошибки "permission denied", предоставить доступ для записи в папке, например
-```
-sudo chmod -R 777 ./
-```
+Переименовать файл .env.example2 в .env
+Он содержит все необходимые настройки.
 
 Войти в консоль example_app настроек:
 ```
@@ -18,11 +16,22 @@ docker exec -it example_app  bash
 ```
 и вести следующие команды:
 ```
-// При необходимости сгенерировать ключ
+// установить зависимости composer
+composer update
+
+// При необходимости сгенерировать ключ. 
+// (Если возникнет ошибка No application encryption key has been specified.)
 php artisan key:generate
 
 // Запустить миграции и заполнить таблицы
 php artisan migrate --seed
+```
+
+Проверить роботоспособность в браузере или postman введя http://localhost:8876 (появится страница фреймворка по умолчанию)
+
+Вслучае возникновении ошибки "The stream or file "/var/www/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied", предоставить доступ для записи в папке, например
+```
+sudo chmod -R 777 ./
 ```
 
 ## Описание
@@ -39,7 +48,7 @@ php artisan migrate --seed
 
 ## Поиск маршрутов
 
-Поиск нужных маршрутов осуществляется по api http://localhost:8876/api/find-bus 
+Поиск нужных маршрутов осуществляется по api http://localhost:8876/api/find-bus
 За поиск нужных маршрутов отвечает \App\Http\Controllers\Api\Bus\FindController.
 
 
@@ -49,8 +58,8 @@ php artisan migrate --seed
 ## Обновление маршрутов
 
 Для обновления маршрута используется api http://localhost:8876/api/route/2/change-stops
-Входные параметры: id маршрута и обновлённый массив с id всех остановок. 
-Расчёт на то что пользователь в форме основляет добавляя или удаля ужные остановки, 
+Входные параметры: id маршрута и обновлённый массив с id всех остановок.
+Расчёт на то что пользователь в форме основляет добавляя или удаля ужные остановки,
 и отправляет новый массив с id который будет использован для записи в бд.
 
 За обновление данных о маршруте отвечает \App\Http\Controllers\Api\Stops\ChangeStopsController
