@@ -10,17 +10,6 @@ docker compose up -d
 Переименовать файл <b>.env.example2</b> в <b>.env</b>,
 Он содержит все необходимые настройки.
 
-Ввести команду
-```
-composer update
-```
-
-Вслучае возникновении ошибки "permission denied", предоставить доступ для записи в папке, например
-```
-sudo chmod -R 777 ./
-```
-
-
 Войти в консоль example_app настроек:
 ```
 docker exec -it example_app  bash
