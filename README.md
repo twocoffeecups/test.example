@@ -7,6 +7,11 @@
 docker compose up -d
 ```
 
+Ввести команду
+```
+composer update
+```
+
 Вслучае возникновении ошибки "permission denied", предоставить доступ для записи в папке, например
 ```
 sudo chmod -R 777 ./
