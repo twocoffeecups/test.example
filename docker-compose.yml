@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+    nginx:
+        image: nginx:latest
+        volumes:
+            - ./:/var/www
+            - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
+        ports:
+            - "8876:80"
+        depends_on:
+            - app
+        container_name: example_nginx
+    app:
+        build:
+            context: .
+            dockerfile: _docker/app/Dockerfile
+        volumes:
+            - ./:/var/www
+            - ./_docker/app/php.ini:/usr/local/etc/php/conf.d/php.ini
+        depends_on:
+            - db
+        container_name: example_app
+    db:
+        image: postgres
+        restart: always
+        volumes:
+            - ./tmp/db:/var/lib/postgresql/data
+        shm_size: 128mb
+        environment:
+            POSTGRES_DB: shuttle_bus
+            POSTGRES_USER: postgres2
+            POSTGRES_PASSWORD: root
+            POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+            PGDATA: /var/lib/postgresql/data/pgdata
+        container_name: example_db
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - "8080:8080"
